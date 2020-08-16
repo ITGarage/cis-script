@@ -1,0 +1,25 @@
+└─ cis-script
+   ├─ p5
+   │  ├─ 5.1.08.sh
+   │  │  └─ line 12: TODO create score pattern
+   │  ├─ 5.1.09.sh
+   │  │  └─ line 12: TODO create score pattern
+   │  ├─ 5.2.05.sh
+   │  │  └─ line 14: TODO maybe sed --in-place "'"'"s/^X11Forwarding.*$/X11Forwarding no/"'"'" /etc/ssh/sshd_config
+   │  ├─ 5.2.12.sh
+   │  │  └─ line 14: TODO create call action
+   │  ├─ 5.2.13.sh
+   │  │  └─ line 14: TODO create call action
+   │  ├─ 5.2.14.sh
+   │  │  └─ line 14: TODO create call action
+   │  ├─ 5.2.15.sh
+   │  │  ├─ line 12: TODO default settings clientaliveinterval 0 clientalivecountmax 3 check pateern should look for -gt 0 param
+   │  │  └─ line 14: TODO idea to past 2 arguments
+   │  ├─ 5.2.17.sh
+   │  │  └─ line 9: TODO write score pattern and call action
+   │  └─ 5.2.18.sh
+   │     └─ line 14: TODO call action text from https://help.ubuntu.com/community/SSH/OpenSSH/Configuring#Display_a_Banner
+   └─ functions.sh
+      ├─ line 94: FIXME cause new line in score output
+      ├─ line 103: FIXME new ? applied ?
+      └─ line 142: TODO $value not showing
