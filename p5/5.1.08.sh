@@ -9,6 +9,8 @@ description='- Description:\nConfigure /etc/cron.allow to allow specific users t
 
 check_command="stat /etc/cron.deny && stat /etc/cron.allow"
 score_pattern=""
+
+stat /etc/cron.allow | grep 'File:\|Access: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/   root)'
 # TODO: create score pattern
 call_action="rm /etc/cron.deny && touch /etc/cron.allow && chown root:root /etc/cron.allow && chmod g-wx,o-rwx /etc/cron.allow"
 

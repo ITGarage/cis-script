@@ -9,6 +9,9 @@ description='- Description:\nConfigure /etc/at.allow to allow specific users to 
 
 check_command="stat /etc/at.deny && stat /etc/at.allow"
 score_pattern=""
+
+stat /etc/at.allow | grep 'File:\|Access: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/   root)'
+
 # TODO: create score pattern
 call_action="rm /etc/at.deny && touch /etc/at.allow && chown root:root /etc/at.allow && chmod g-wx,o-rwx /etc/at.allow"
 

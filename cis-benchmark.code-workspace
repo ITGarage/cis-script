@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"todo-tree.tree.scanMode": "workspace",
+		"todo-tree.tree.buttons.export": true
+	}
+}

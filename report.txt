@@ -1,0 +1,76 @@
+__________________________________________________________________________________________________________________
+
+  5.1.1 Ensure cron daemon is enabled and running
+- Description:
+The cron daemon is used to execute batch jobs on the system.
+
+Note: Other methods, such as systemd timers, exist for scheduling jobs. If another method is used, cron should be 
+removed, and the alternate method should be secured in accordance with local site policy.
+
+- Rationale:
+While there may not be user jobs that need to be run on the system, the system does have maintenance jobs that may 
+include security monitoring that have to run, and cron is used to execute them.
+
+current settings is:
+enabled
+active(running)
+
+score pattern is:
+== systemctl is-enabled cron | grep 'enabled' && systemctl status cron | grep 'Active: active (running)' | awk '{print $2 $3}' | grep 'active(running)'
+
+scored
+__________________________________________________________________________________________________________________
+
+  5.1.2 Ensure permissions on /etc/crontab are configured
+- Description:
+The /etc/crontab file is used by cron to control its own jobs. The commands in this item make sure that root is 
+the user and group owner of the file and that only the owner can access the file.
+
+Note: Other methods, such as systemd timers, exist for scheduling jobs. If another method is used, cron should be 
+removed, and the alternate method should be secured in accordance with local site policy.
+
+- Rationale:
+This file contains information on what system jobs are run by cron. Write access to these files could provide 
+unprivileged users with the ability to elevate their privileges. Read access to these files could provide users 
+with the ability to gain insight on system jobs that run on the system and could provide them a way to gain 
+unauthorized privileged access.
+
+current settings is:
+  File: /etc/crontab
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+
+score pattern is:
+== stat /etc/crontab | grep 'File:\|Access: (0600/-rw-------) Uid: ( 0/ root) Gid: ( 0/ root)'
+
+command to execute:
+chown root:root /etc/crontab && chmod og-rwx /etc/crontab
+
+not scored (skipped)
+__________________________________________________________________________________________________________________
+
+  5.1.3 Ensure permissions on /etc/cron.hourly are configured
+- Description:
+This directory contains system cron jobs that need to run on an hourly basis. The files in this directory cannot 
+be manipulated by the crontab command, but are instead edited by system administrators using a text editor. The 
+commands below restrict read/write and search access to user and group root, preventing regular users from 
+accessing this directory.
+
+Note: Other methods, such as systemd timers, exist for scheduling jobs. If another method is used, cron should be 
+removed, and the alternate method should be secured in accordance with local site policy.
+
+- Rationale:
+Granting write access to this directory for non-privileged users could provide them the means for gaining 
+unauthorized elevated privileges. Granting read access to this directory could give an unprivileged user insight 
+in how to gain elevated privileges or circumvent auditing controls.
+
+current settings is:
+  File: /etc/cron.hourly/
+Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+
+score pattern is:
+== stat /etc/cron.hourly/ | grep 'File:\|Access: (0700/drwx------) Uid: ( 0/ root) Gid: ( 0/ root)'
+
+command to execute:
+chown root:root /etc/cron.hourly/ && chmod og-rwx /etc/cron.hourly/
+
+not scored

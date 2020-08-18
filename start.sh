@@ -6,6 +6,7 @@ then
     echo 'this script must be run with sudo'
     exit
 fi
+echo "__________________________________________________________________________________________________________________" 2>&1 | tee $logfile 
 
 # link functions
 ln -s functions.sh $PWD/p5/functions.sh

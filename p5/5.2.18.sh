@@ -13,3 +13,10 @@ score_pattern="sshd -T | grep 'banner /etc/issue.net'"
 call_action=""
 # TODO: call action text from https://help.ubuntu.com/community/SSH/OpenSSH/Configuring#Display_a_Banner
 check_if "==" "$check_command" "$score_pattern"
+
+function cp_issue.net()
+{
+    cp issue.net /etc/issue.net
+    sed --in-place 's/^.*Banner none.*$/Banner /etc/issue.net/' /etc/ssh/sshd_config
+    
+}

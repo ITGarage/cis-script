@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # set log file
-logfile="./test/report.txt"
-time_to_log=$(date +"%Y-%m-%d %H:%M:%S")
+logfile="report.txt"
+#time_to_log=$(date +"%Y-%m-%d %H:%M:%S")
 
 # detect type of input ($score_pattern) and compare it with $check_command
 # $1 - comparison operator
@@ -91,7 +91,7 @@ function check_not_scored_output() {
     echo -e "command to execute:\n$call_action\n" 2>&1 | tee -a $logfile
     echo -n "not scored" 2>&1 | tee -a $logfile
     ask_yn "$1" "$2" "$3"
-    echo -e "\n__________________________________________________________________________________________________________________" 2>&1 | tee -a $logfile # FIXME: cause new line in score output
+    echo -e "\n__________________________________________________________________________________________________________________" 2>&1 | tee -a $logfile
 }
 
 # output recheck if scored
@@ -100,9 +100,9 @@ function check_not_scored_output() {
 # $3 - $score_pattern
 function recheck_scored_output() {
     echo -e "\n" 2>&1 | tee -a $logfile
-    echo -e "current settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile #FIXME: new ? applied ?
+    echo -e "applied settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
     echo -e "score pattern is:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
-    echo "scored" 2>&1 | tee -a $logfile
+    echo -n "scored" 2>&1 | tee -a $logfile
 }
 
 # output recheck if not scored
@@ -128,7 +128,7 @@ function ask_yn() {
             break
             ;;
         N | n | No | NO | no)
-            echo " (skipped)" >>$logfile 2>&1
+            echo -n " (skipped)" >>$logfile 2>&1
             break
             ;;
         *) echo "please answer yes or no" ;;
