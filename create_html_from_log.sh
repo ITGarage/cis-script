@@ -18,12 +18,11 @@ echo '<h2 class="text-center">cis ubuntu linux 20.04 lts benchmark report</h2>' 
 echo '<hr>' >>$report_html
 awk '
 BEGIN { ORS="" }
-    $0=="scored" {val1=$0; print "<div class=\"text-center container badge-success\">" val1 "</div>"} 
-    $0~/not scored/ {val1=$0; print "<div class=\"text-center container badge-danger\">" val1 "</div>"}
+    $0=="scored" {value=$0; print "<div class=\"text-center container badge-success\">" value "</div>"} # find pattern 
+    $0~/not scored/ {value=$0; print "<div class=\"text-center container badge-danger\">" value "</div>"} # find pattern
     $0~/___________/ {getline; getline; print "<div class=\"container\">" $0 "</div>"} # get 2nd line after match
-    /- Description:/{flag=1} 
-    /- Result:/{flag=0}
-    {print "<div class=\"container\">"}; flag; {print "</div>"}
+    /- Description:/{flag=1}; /- Result:/{flag=0} # get block from pattern to pattern
+    {print "<div class=\"container\">"}; flag; {print "</div>"} # print block 
     ' $logfile >>$report_html
 echo '</body>' >>$report_html
 echo '</html>' >>$report_html
