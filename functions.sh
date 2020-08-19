@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # set log file
-logfile="report.txt"
+logfile="log.txt"
 #time_to_log=$(date +"%Y-%m-%d %H:%M:%S")
 
 # detect type of input ($score_pattern) and compare it with $check_command

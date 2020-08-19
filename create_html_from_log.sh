@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-logfile='report.txt'
-report_html='log.html'
+logfile='log.txt'
+report_html='report.html'
 
 echo '<!DOCTYPE html>' >$report_html
 echo '<html lang="en">' >>$report_html
