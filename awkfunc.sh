@@ -16,23 +16,18 @@ echo '<h2>cis ubuntu linux 20.04 lts benchmark report</h2>' >>$report_html
 echo '<hr>' >>$report_html
 # echo '<pre>' >>$report_html
 awk '
+# function desc(){/- Description:/{flag=1} /- Rationale:/{flag=0} flag}
 BEGIN { ORS=" " }
     c&&!--c;/__________________________________________________________________________________________________________________/{c=2}
-
     /- Description:/{flag=1}
     /- Rationale:/{flag=0}
-
-    /- Rationale:/{flag=2}
+    /- Rationale:/{flag=1}
     /current settings is:/{flag=0}
-
-    /current settings is:/{flag=3}
+    /current settings is:/{flag=1}
     /score pattern is:/{flag=0} 
-
     {print "<div>"}; flag; {print "</div>"}
-
     $0=="scored" {print "<p style=\"color:green\"><b>" $0 "</b></p>"}
     $0~/not scored/ {print "<p style=\"color:red\"><b>" $0 "</b></p>"}
-
     ' $logfile >>$report_html
 # echo '</pre>' >>$report_html
 echo '</body>' >>$report_html
