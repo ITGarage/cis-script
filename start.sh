@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # check the bash shell script is being run by root
-if [ "$EUID" -ne 0 ]
-then 
+if [ "$EUID" -ne 0 ]; then
     echo 'this script must be run with sudo'
     exit
 fi
-echo "__________________________________________________________________________________________________________________" 2>&1 | tee $logfile 
+# set log file
+logfile="report.txt"
+echo "__________________________________________________________________________________________________________________" >$logfile
 
 # link functions
 ln -s functions.sh $PWD/p5/functions.sh
@@ -18,4 +19,4 @@ find $PWD/p5/ -xdev -type f -name '5.*.sh' | xargs stat | grep 'File'
 find $PWD/p5/ -xdev -type f -name '5.*.sh' | xargs chmod +x
 
 # run all executable sctipts in /p5
-run-parts --regex '\.sh$'  $PWD/p5
+run-parts --regex '\.sh$' $PWD/p5

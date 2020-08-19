@@ -73,7 +73,7 @@ function recheck_if() {
 # $2 - $check_command
 # $3 - $score_pattern
 function check_scored_output() {
-    echo -e "$description\n" | fold --spaces --width=115 2>&1 | tee -a $logfile
+    echo -e "$description\n" 2>&1 | tee -a $logfile #| fold --spaces --width=115
     echo -e "current settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
     echo -e "score pattern is:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
     echo "scored" 2>&1 | tee -a $logfile
@@ -85,7 +85,7 @@ function check_scored_output() {
 # $2 - $check_command
 # $3 - $score_pattern
 function check_not_scored_output() {
-    echo -e "$description\n" | fold --spaces --width=115 2>&1 | tee -a $logfile
+    echo -e "$description\n" 2>&1 | tee -a $logfile #| fold --spaces --width=115
     echo -e "current settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
     echo -e "score pattern is:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
     echo -e "command to execute:\n$call_action\n" 2>&1 | tee -a $logfile

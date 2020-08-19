@@ -27,5 +27,9 @@ awk '/score pattern is:/{nr[NR]; nr[NR+1]}; NR in nr' report.txt
 
 sed -n '/__________________________________________________________________________________________________________________/,/__________________________________________________________________________________________________________________/{//!p;}' report.txt >> par.txt 
 
-awk 'BEGIN{print "<table>"} {print "<tr>";for(i=1;i<=NF;i++)print "<td>" $i"</td>";print "</tr>"} END{print "</table>"}' report.txt >> email.html
-awk 'BEGIN{print "<table>"} {print "<tr>";print "<td>"/- Description:/{flag=1} /- Rationale:/{flag=0} flag"</td>";print "</tr>"} END{print "</table>"}' report.txt >> email.html
+awk 'BEGIN{print "<table>"} {print "<tr>"; for(i=1;i<=NF;i++)print "<td>" $i"</td>";print "</tr>"} END{print "</table>"}' report.txt >> email.html
+awk 'BEGIN{print "<table>"} {print "<tr>";print "<td>"; action ; "</td>";print "</tr>"} END{print "</table>"}' report.txt >> email.html
+
+awk 'BEGIN{print "<table>"} {print "<tr>"; /- Description:/{flag=1} /- Rationale:/{flag=0} flag ;print "</tr>"} END{print "</table>"}' report.txt >> email.html
+
+awk -f myscript.awk report.txt
