@@ -21,8 +21,8 @@ BEGIN { ORS="" }
     $0=="scored" {value=$0; print "<div class=\"text-center container badge-success\">" value "</div>"} # find pattern 
     $0~/not scored/ {value=$0; print "<div class=\"text-center container badge-danger\">" value "</div>"} # find pattern
     $0~/___________/ {getline; getline; print "<div class=\"container\">" $0 "</div>"} # get 2nd line after match
-    /- Description:/{flag=1}; /- Result:/{flag=0} # get block from pattern to pattern
-    {print "<div class=\"container\">"}; flag; {print "</div>"} # print block 
+    /- Description:/{flag=1}; /- Result:/{flag=0} # get block from pattern to pattern mark as flag
+    {print "<div class=\"container\">"}; flag; {print "</div>"} # print block marked as flag
     ' $logfile >>$report_html
 echo '</body>' >>$report_html
 echo '</html>' >>$report_html
