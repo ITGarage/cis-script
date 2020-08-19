@@ -74,8 +74,9 @@ function recheck_if() {
 # $3 - $score_pattern
 function check_scored_output() {
     echo -e "$description\n" 2>&1 | tee -a $logfile #| fold --spaces --width=115
-    echo -e "current settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
-    echo -e "score pattern is:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
+    echo -e "- Current settings:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
+    echo -e "- Score pattern:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
+    echo "- Result:" 2>&1 | tee -a $logfile
     echo "scored" 2>&1 | tee -a $logfile
     echo "__________________________________________________________________________________________________________________" 2>&1 | tee -a $logfile
 }
@@ -86,9 +87,10 @@ function check_scored_output() {
 # $3 - $score_pattern
 function check_not_scored_output() {
     echo -e "$description\n" 2>&1 | tee -a $logfile #| fold --spaces --width=115
-    echo -e "current settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
-    echo -e "score pattern is:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
-    echo -e "command to execute:\n$call_action\n" 2>&1 | tee -a $logfile
+    echo -e "- Current settings:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
+    echo -e "- Score pattern:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
+    echo -e "- Command to execute:\n$call_action\n" 2>&1 | tee -a $logfile
+    echo "- Result:" 2>&1 | tee -a $logfile
     echo -n "not scored" 2>&1 | tee -a $logfile
     ask_yn "$1" "$2" "$3"
     echo -e "\n__________________________________________________________________________________________________________________" 2>&1 | tee -a $logfile
@@ -100,8 +102,9 @@ function check_not_scored_output() {
 # $3 - $score_pattern
 function recheck_scored_output() {
     echo -e "\n" 2>&1 | tee -a $logfile
-    echo -e "applied settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
-    echo -e "score pattern is:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
+    echo -e "- Applied settings:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
+    echo -e "- Score pattern:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
+    echo "- Result:" 2>&1 | tee -a $logfile
     echo -n "scored" 2>&1 | tee -a $logfile
 }
 
@@ -111,9 +114,10 @@ function recheck_scored_output() {
 # $3 - $score_pattern
 function recheck_not_scored_output() {
     echo -e "\n" 2>&1 | tee -a $logfile
-    echo -e "current settings is:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
-    echo -e "score pattern is:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
-    echo -e "command to execute:\n$call_action\n" 2>&1 | tee -a $logfile
+    echo -e "- Current settings:\n$(eval "$2")\n" 2>&1 | tee -a $logfile
+    echo -e "- Score pattern:\n"$1" "$3"\n" 2>&1 | tee -a $logfile
+    echo -e "- Command to execute:\n$call_action\n" 2>&1 | tee -a $logfile
+    echo "- Result:" 2>&1 | tee -a $logfile
     echo -n "not scored" 2>&1 | tee -a $logfile
 }
 

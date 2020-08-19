@@ -9,13 +9,14 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 While there may not be user jobs that need to be run on the system, the system does have maintenance jobs that may include security monitoring that have to run, and cron is used to execute them.
 
-current settings is:
+- Current settings:
 enabled
 active(running)
 
-score pattern is:
+- Score pattern:
 == systemctl is-enabled cron | grep 'enabled' && systemctl status cron | grep 'Active: active (running)' | awk '{print $2 $3}' | grep 'active(running)'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -28,16 +29,17 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 This file contains information on what system jobs are run by cron. Write access to these files could provide unprivileged users with the ability to elevate their privileges. Read access to these files could provide users with the ability to gain insight on system jobs that run on the system and could provide them a way to gain unauthorized privileged access.
 
-current settings is:
+- Current settings:
   File: /etc/crontab
 Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == stat /etc/crontab | grep 'File:\|Access: (0600/-rw-------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
-command to execute:
+- Command to execute:
 chown root:root /etc/crontab && chmod og-rwx /etc/crontab
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -50,16 +52,17 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 Granting write access to this directory for non-privileged users could provide them the means for gaining unauthorized elevated privileges. Granting read access to this directory could give an unprivileged user insight in how to gain elevated privileges or circumvent auditing controls.
 
-current settings is:
+- Current settings:
   File: /etc/cron.hourly/
 Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == stat /etc/cron.hourly/ | grep 'File:\|Access: (0700/drwx------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
-command to execute:
+- Command to execute:
 chown root:root /etc/cron.hourly/ && chmod og-rwx /etc/cron.hourly/
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -72,16 +75,17 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 Granting write access to this directory for non-privileged users could provide them the means for gaining unauthorized elevated privileges. Granting read access to this directory could give an unprivileged user insight in how to gain elevated privileges or circumvent auditing controls.
 
-current settings is:
+- Current settings:
   File: /etc/cron.daily/
 Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == stat /etc/cron.daily/ | grep 'File:\|Access: (0700/drwx------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
-command to execute:
+- Command to execute:
 chown root:root /etc/cron.daily/ && chmod og-rwx /etc/cron.daily/
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -94,16 +98,17 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 Granting write access to this directory for non-privileged users could provide them the means for gaining unauthorized elevated privileges. Granting read access to this directory could give an unprivileged user insight in how to gain elevated privileges or circumvent auditing controls.
 
-current settings is:
+- Current settings:
   File: /etc/cron.weekly/
 Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == stat /etc/cron.weekly/ | grep 'File:\|Access: (0700/drwx------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
-command to execute:
+- Command to execute:
 chown root:root /etc/cron.weekly/ && chmod og-rwx /etc/cron.weekly/
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -116,16 +121,17 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 Granting write access to this directory for non-privileged users could provide them the means for gaining unauthorized elevated privileges. Granting read access to this directory could give an unprivileged user insight in how to gain elevated privileges or circumvent auditing controls.
 
-current settings is:
+- Current settings:
   File: /etc/cron.monthly/
 Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == stat /etc/cron.monthly/ | grep 'File:\|Access: (0700/drwx------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
-command to execute:
+- Command to execute:
 chown root:root /etc/cron.monthly/ && chmod og-rwx /etc/cron.monthly/
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -138,16 +144,17 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 Granting write access to this directory for non-privileged users could provide them the means for gaining unauthorized elevated privileges. Granting read access to this directory could give an unprivileged user insight in how to gain elevated privileges or circumvent auditing controls.
 
-current settings is:
+- Current settings:
   File: /etc/cron.d/
 Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == stat /etc/cron.d/ | grep 'File:\|Access: (0700/drwx------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
-command to execute:
+- Command to execute:
 chown root:root /etc/cron.d/ && chmod og-rwx /etc/cron.d/
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -163,12 +170,13 @@ Notes:
 - Rationale:
 On many systems, only the system administrator is authorized to schedule cron jobs. Using the cron.allow file to control who can run cron jobs enforces this policy. It is easier to manage an allow list than a deny list. In a deny list, you could potentially add a user ID to the system and forget to add it to the deny files.
 
-current settings is:
+- Current settings:
 
 
-score pattern is:
+- Score pattern:
 == 
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -181,7 +189,7 @@ Note: Other methods, such as systemd timers, exist for scheduling jobs. If anoth
 - Rationale:
 On many systems, only the system administrator is authorized to schedule at jobs. Using the at.allow file to control who can run at jobs enforces this policy. It is easier to manage an allow list than a deny list. In a deny list, you could potentially add a user ID to the system and forget to add it to the deny files.
 
-current settings is:
+- Current settings:
   File: /etc/at.deny
   Size: 144       	Blocks: 8          IO Block: 4096   regular file
 Device: 802h/2050d	Inode: 4981404     Links: 1
@@ -191,12 +199,13 @@ Modify: 2018-11-12 19:11:53.000000000 +0200
 Change: 2020-08-16 12:49:35.177198214 +0300
  Birth: -
 
-score pattern is:
+- Score pattern:
 == 
 
-command to execute:
+- Command to execute:
 rm /etc/at.deny && touch /etc/at.allow && chown root:root /etc/at.allow && chmod g-wx,o-rwx /etc/at.allow
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -207,13 +216,14 @@ The /etc/ssh/sshd_config file contains configuration specifications for sshd. Th
 - Rationale:
 The /etc/ssh/sshd_config file needs to be protected from unauthorized changes by non-privileged users.
 
-current settings is:
+- Current settings:
   File: /etc/ssh/sshd_config
 Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == stat /etc/ssh/sshd_config | grep 'File:\|Access: (0600/-rw-------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -224,7 +234,7 @@ An SSH private key is one of two files used in SSH public key authentication. In
 - Rationale:
 If an unauthorized user obtains the private SSH host key file, the host could be impersonated.
 
-current settings is:
+- Current settings:
   File: /etc/ssh/ssh_host_ed25519_key
 Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
   File: /etc/ssh/ssh_host_rsa_key
@@ -234,9 +244,10 @@ Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
   File: /etc/ssh/ssh_host_dsa_key
 Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == find /etc/ssh -xdev -type f -name 'ssh_host_*_key' | xargs stat | grep 'File:\|Access: (0600/-rw-------) Uid: ( 0/ root) Gid: ( 0/ root)'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -247,7 +258,7 @@ An SSH public key is one of two files used in SSH public key authentication. In 
 - Rationale:
 If a public host key file is modified by an unauthorized user, the SSH service may be compromised.
 
-current settings is:
+- Current settings:
   File: /etc/ssh/ssh_host_ed25519_key.pub
 Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
   File: /etc/ssh/ssh_host_dsa_key.pub
@@ -257,9 +268,10 @@ Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
   File: /etc/ssh/ssh_host_rsa_key.pub
 Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
 
-score pattern is:
+- Score pattern:
 == find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' | xargs stat | grep 'File\|Access: (0644/-rw-r--r--) Uid: ( 0/ root) Gid: ( 0/ root)'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -273,12 +285,13 @@ Note: The newer OpenSSH releases do not need a verbose mode setting anymore as t
 SSH provides several logging levels with varying amounts of verbosity. The DEBUG loglevels are specifically not recommended other than for strictly debugging SSH communications since it provides so much data that it is difficult to identify important security information and may violate the privacy of users.
 LogLevel INFO is the basic level that records login activity of SSH users. In many situations, such as Incident Response, it is important to determine when a particular user was active on a system. The logout record can eliminate those users who disconnected, which helps narrow the field
 
-current settings is:
+- Current settings:
 loglevel INFO
 
-score pattern is:
+- Score pattern:
 != sshd -T | grep --extended-regexp 'loglevel DEBUG|loglevel DEBUG1|loglevel DEBUG2|loglevel DEBUG3'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -291,15 +304,16 @@ Disable X11 forwarding unless there is an operational requirement to use X11 app
 
 Note that even if X11 forwarding is disabled, users can always install their own forwarders.
 
-current settings is:
+- Current settings:
 x11forwarding yes
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -E 'x11forwarding no'
 
-command to execute:
+- Command to execute:
 sed --in-place "s/^.*X11Forwarding.*$/X11Forwarding no/" /etc/ssh/sshd_config
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -312,15 +326,16 @@ Note: Local site policy may be more restrictive.
 - Rationale:
 Setting the MaxAuthTries parameter to a low number will minimize the risk of successful brute force attacks to the SSH server. While the recommended setting is 4, set the number based on site policy.
 
-current settings is:
+- Current settings:
 6
 
-score pattern is:
+- Score pattern:
 -le 4
 
-command to execute:
+- Command to execute:
 set_value_gt0 "-le" "$check_command" "$score_pattern" "$x"
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -331,12 +346,13 @@ The IgnoreRhosts parameter specifies that .rhosts and .shosts files will not be 
 - Rationale:
 Setting this parameter forces users to enter a password when authenticating with ssh.
 
-current settings is:
+- Current settings:
 ignorerhosts yes
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -E 'ignorerhosts yes'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -347,12 +363,13 @@ The HostbasedAuthentication parameter specifies if authentication is allowed thr
 - Rationale:
 Even though the .rhosts files are ineffective if support is disabled in /etc/pam.conf, disabling the ability to use .rhosts files in SSH provides an additional layer of protection.
 
-current settings is:
+- Current settings:
 hostbasedauthentication no
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -E 'hostbasedauthentication no'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -363,15 +380,16 @@ The PermitRootLogin parameter specifies if the root user can log in using ssh. T
 - Rationale:
 Disallowing root logins over SSH requires system admins to authenticate using their own individual account, then escalating to root via sudo or su. This in turn limits opportunity for non-repudiation and provides a clear audit trail in the event of a security incident.
 
-current settings is:
+- Current settings:
 permitrootlogin without-password
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -E 'permitrootlogin no'
 
-command to execute:
+- Command to execute:
 sed --in-place "s/^.*PermitRootLogin.*$/PermitRootLogin no/" /etc/ssh/sshd_config
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -382,12 +400,13 @@ The PermitEmptyPasswords parameter specifies if the SSH server allows login to a
 - Rationale:
 Disallowing remote shell access to accounts that have an empty password reduces the probability of unauthorized access to the system.
 
-current settings is:
+- Current settings:
 permitemptypasswords no
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -E 'permitemptypasswords no'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -398,12 +417,13 @@ The PermitUserEnvironment option allows users to present environment options to 
 - Rationale:
 Permitting users the ability to set environment variables through the SSH daemon could potentially allow users to bypass security controls (e.g. setting an execution path that has ssh executing trojan'd programs).
 
-current settings is:
+- Current settings:
 permituserenvironment no
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -E 'permituserenvironment no'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -426,12 +446,13 @@ Weak ciphers that are used for authentication to the cryptographic module cannot
   • The Triple DES ciphers, as used in SSH, have a birthday bound of approximately four billion blocks, which makes it easier for remote attackers to obtain cleartext data via a birthday attack against a long-duration encrypted session, aka a "Sweet32" attack
   • Error handling in the SSH protocol; Client and Server, when using a block cipher algorithm in Cipher Block Chaining (CBC) mode, makes it easier for remote attackers to recover certain plaintext data from an arbitrary block of ciphertext in an SSH session via unknown vectors
 
-current settings is:
+- Current settings:
 ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
 
-score pattern is:
+- Score pattern:
 != sshd -T | grep --extended-regexp 'ciphers\|3des-cbc|aes128-cbc|aes192-cbc|aes256-cbc'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -451,15 +472,16 @@ hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96, hmac-sha2-256, hmac-sha2-512, um
 - Rationale:
 MD5 and 96-bit MAC algorithms are considered weak and have been shown to increase exploitability in SSH downgrade attacks. Weak algorithms continue to have a great deal of attention as a weak spot that can be exploited with expanded computing power. An attacker that breaks the algorithm could take advantage of a MiTM position to decrypt the SSH tunnel and capture credentials and information.
 
-current settings is:
+- Current settings:
 macs umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
 
-score pattern is:
+- Score pattern:
 != sshd -T | grep --extended-regexp 'MACs\|hmac-md5|hmac-md5-96|hmac-ripemd160|hmac-sha1|hmac-sha1-96|umac-64@openssh.com|umac-128@openssh.com|hmac-md5-etm@openssh.com|hmac-md5-96-etm@openssh.com|hmac-ripemd160-etm@openssh.com|hmac-sha1-etm@openssh.com|hmac-sha1-96-etm@openssh.com|umac-64-etm@openssh.com|umac-128-etm@openssh.com'
 
-command to execute:
+- Command to execute:
 
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -485,16 +507,17 @@ curve25519-sha256, curve25519-sha256@libssh.org, diffie-hellman-group1-sha1, dif
 - Rationale:
 Key exchange methods that are considered weak should be removed. A key exchange method may be weak because too few bits are used, or the hashing algorithm is considered too weak. Using weak algorithms could expose connections to man-in-the-middle attacks.
 
-current settings is:
+- Current settings:
 gssapikexalgorithms gss-gex-sha1-,gss-group14-sha1-
 kexalgorithms curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -E 'kexalgorithms\|diffie-hellman-group1-sha1|diffie-hellman-group14-sha1|diffie-hellman-group-exchange-sha1'
 
-command to execute:
+- Command to execute:
 
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -517,16 +540,17 @@ Having no timeout value associated with a connection could allow an unauthorized
   • The recommended ClientAliveCountMax setting is 3
   • The ssh session would send three keep alive messages at 5 minute intervals. If no response is received after the third keep alive message, the ssh session would be terminated after 15 minutes.
 
-current settings is:
+- Current settings:
 clientaliveinterval 0
 clientalivecountmax 3
 
-score pattern is:
+- Score pattern:
 == 
 
-command to execute:
+- Command to execute:
 
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -539,15 +563,16 @@ Note: Local site policy may be more restrictive
 - Rationale:
 Setting the LoginGraceTime parameter to a low number will minimize the risk of successful brute force attacks to the SSH server. It will also limit the number of concurrent unauthenticated connections While the recommended setting is 60 seconds (1 Minute), set the number based on site policy.
 
-current settings is:
+- Current settings:
 120
 
-score pattern is:
+- Score pattern:
 -le 60
 
-command to execute:
+- Command to execute:
 set_value_gt0 "-le" "$check_command" "$score_pattern" "$x"
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -572,12 +597,13 @@ There are several options available to limit which users and group can access th
 - Rationale:
 Restricting which users can remotely access the system via SSH will help ensure that only authorized users access the system.
 
-current settings is:
+- Current settings:
 
 
-score pattern is:
+- Score pattern:
 == 
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -588,15 +614,16 @@ The Banner parameter specifies a file whose contents must be sent to the remote 
 - Rationale:
 Banners are used to warn connecting users of the particular site's policy regarding connection. Presenting a warning message prior to the normal user login may assist the prosecution of trespassers on the computer system.
 
-current settings is:
+- Current settings:
 banner none
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep 'banner /etc/issue.net'
 
-command to execute:
+- Command to execute:
 
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -607,12 +634,13 @@ UsePAM Enables the Pluggable Authentication Module interface. If set to “yes�
 - Rationale:
 When usePAM is set to yes, PAM runs through account and session types properly. This is important if you want to restrict access to services based off of IP, time or other factors of the account. Additionally, you can make sure users inherit certain environment variables on login or disallow access to the server
 
-current settings is:
+- Current settings:
 usepam yes
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -i 'usepam yes'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -624,15 +652,16 @@ SSH port forwarding is a mechanism in SSH for tunneling application ports from t
 Leaving port forwarding enabled can expose the organization to security risks and backdoors.
 SSH connections are protected with strong encryption. This makes their contents invisible to most deployed network monitoring and traffic filtering solutions. This invisibility carries considerable risk potential if it is used for malicious purposes such as data exfiltration. Cybercriminals or malware could exploit SSH to hide their unauthorized communications, or to exfiltrate stolen data from the target network
 
-current settings is:
+- Current settings:
 allowtcpforwarding yes
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -i 'allowtcpforwarding no'
 
-command to execute:
+- Command to execute:
 sed --in-place "s/^.*AllowTcpForwarding.*$/AllowTcpForwarding no/" /etc/ssh/sshd_config
 
+- Result:
 not scored (skipped)
 __________________________________________________________________________________________________________________
 
@@ -645,12 +674,13 @@ Note: Local site policy may be more restrictive.
 - Rationale:
 To protect a system from denial of service due to a large number of pending authentication connection attempts, use the rate limiting function of MaxStartups to protect availability of sshd logins and prevent overwhelming the daemon.
 
-current settings is:
+- Current settings:
 maxstartups 10:30:100
 
-score pattern is:
+- Score pattern:
 == sshd -T | grep -i 'maxstartups 10:30:100'
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
 
@@ -663,11 +693,12 @@ Note: Local site policy may be more restrictive.
 - Rationale:
 To protect a system from denial of service due to a large number of concurrent sessions, use the rate limiting function of MaxSessions to protect availability of sshd logins and prevent overwhelming the daemon.
 
-current settings is:
+- Current settings:
 10
 
-score pattern is:
+- Score pattern:
 == 10
 
+- Result:
 scored
 __________________________________________________________________________________________________________________
